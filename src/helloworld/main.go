@@ -28,10 +28,10 @@ package main
 // 	age = 20
 // )
 // func main() {
-	// firstName, lastName := "ichiro", "tanaka"
-	// age := 20 // int
-	// age = age /3 // = 6 になる（int = 整数 のため小数が切り捨てられた）
-	// fmt.Println(firstName, lastName, age)
+// firstName, lastName := "ichiro", "tanaka"
+// age := 20 // int
+// age = age /3 // = 6 になる（int = 整数 のため小数が切り捨てられた）
+// fmt.Println(firstName, lastName, age)
 // }
 
 /*
@@ -56,10 +56,22 @@ package main
 // ダブルクォーテーション (") で囲む。シングルクォーテーション (')で囲むのは、rune。
 
 // 型変換・キャスト
-import "strconv"
+// import "strconv"
+
+// func main() {
+//     i, _ := strconv.Atoi("-42") // Atoi: 文字列 → 数値へパース。Atoi は返り値が2つあり、2つ目は使わないため、 _ で、これから使わないことを明示。
+//     s := strconv.Itoa(-42)
+//     println(i, s)
+// }
+
+// 標準入力
+import (
+	"os"
+	"strconv"
+)
 
 func main() {
-    i, _ := strconv.Atoi("-42") // Atoi は返り値が2つあり、2つ目は使わないため、 _ で、これから使わないことを明示。
-    s := strconv.Itoa(-42)
-    println(i, s)
+	number1, _ := strconv.Atoi(os.Args[1]) // os.Argsで標準入力を受け取り
+	number2, _ := strconv.Atoi(os.Args[2])
+	println("合計:", number1+number2)
 }
