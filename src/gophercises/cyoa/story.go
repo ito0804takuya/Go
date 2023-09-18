@@ -1,5 +1,5 @@
 package cyoa
-pwd
+
 import (
 	"encoding/json"
 	"io"
