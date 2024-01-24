@@ -1,0 +1,7 @@
+go 1.20
+
+use (
+	.
+	// ./src/learn-go-with-tests
+	./src/learn-go-with-tests/helloworld
+)
