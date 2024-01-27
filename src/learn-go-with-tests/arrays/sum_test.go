@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestSum(t *testing.T) {
 
@@ -15,4 +18,14 @@ func TestSum(t *testing.T) {
 		}
 	})
 
+}
+
+func TestSumAll(t *testing.T) {
+	got := SumAll([]int{2, 3}, []int{1, 9})
+	want := []int{5, 10}
+
+	// got != wantではスライスの中の要素まで同じか判定できないため、reflect.DeepEqual
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
 }
