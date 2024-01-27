@@ -1,5 +1,7 @@
 package main
 
+import "math"
+
 // 四角形
 type Rectangle struct {
 	Width float64
@@ -12,6 +14,15 @@ func Perimeter(rectangle Rectangle) float64 {
 }
 
 // 四角形の面積
-func Area(rectangle Rectangle) float64 {
-	return rectangle.Width * rectangle.Height
+func (r Rectangle) Area() float64 {
+	return r.Width * r.Height
+}
+
+// 円形
+type Circle struct {
+	Radius float64
+}
+
+func (c Circle) Area() float64 {
+	return math.Pi * c.Radius * c.Radius
 }
