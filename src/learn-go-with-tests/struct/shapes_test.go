@@ -18,7 +18,7 @@ func TestArea(t *testing.T) {
 	// テーブル駆動テスト : 同じ方法でテストできるテストケースのリストを作ってテストする
 	areaTests := []struct {
 		shape Shape
-		want float64
+		want  float64
 	}{
 		// テストケース
 		{shape: Rectangle{12, 6}, want: 72.0},

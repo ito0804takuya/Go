@@ -8,7 +8,7 @@ type Shape interface {
 
 // 四角形
 type Rectangle struct {
-	Width float64
+	Width  float64
 	Height float64
 }
 
@@ -32,7 +32,7 @@ func (c Circle) Area() float64 {
 }
 
 type Triangle struct {
-	Base float64
+	Base   float64
 	Height float64
 }
 
