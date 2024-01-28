@@ -19,3 +19,8 @@ func (w *Wallet) Balance() Bitcoin {
 	// return (*w).balance と等価 (*演算子 : ポインターを参照して、（ポインターが示す）格納先のオブジェクトへアクセスする。)
 	return w.balance
 }
+
+// 引き出し
+func (w *Wallet) Withdraw(amount Bitcoin) {
+	w.balance -= amount
+}
