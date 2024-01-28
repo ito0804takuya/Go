@@ -1,5 +1,7 @@
 package main
 
+import "errors"
+
 type Bitcoin int
 
 // 口座
@@ -20,7 +22,13 @@ func (w *Wallet) Balance() Bitcoin {
 	return w.balance
 }
 
+var ErrInsufficientFunds = errors.New("cannot withdraw, insufficient funds")
+
 // 引き出し
-func (w *Wallet) Withdraw(amount Bitcoin) {
+func (w *Wallet) Withdraw(amount Bitcoin) error {
+	if amount > w.balance {
+		return ErrInsufficientFunds
+	}
 	w.balance -= amount
+	return nil
 }
