@@ -31,3 +31,27 @@ func TestSearch(t *testing.T) {
 	})
 
 }
+
+func assertDefinition(t *testing.T, dictionary Dictionary, word, definition string) {
+	t.Helper()
+
+	got, err := dictionary.Search(word)
+	if err != nil {
+		// Fatalは即座に終了（異常事態）
+		t.Fatal("should find added word:", err)
+	}
+	
+	if got != definition {
+		// Errorfは起こることが想定されるエラー。これ以降のテストも実行される
+		t.Errorf("got %q want %q", got, definition)
+	}
+}
+
+func TestAdd(t *testing.T) {
+	dictionary := Dictionary{}
+	word := "test"
+	definition := "this is just a test"
+	dictionary.Add(word, definition)
+
+	assertDefinition(t, dictionary, word, definition)
+}
