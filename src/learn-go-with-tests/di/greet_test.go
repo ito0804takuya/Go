@@ -7,7 +7,7 @@ import (
 
 func TestGreet(t *testing.T) {
 	buffer := bytes.Buffer{}
-	Greet(buffer, "Chris")
+	Greet(&buffer, "Chris")
 
 	// bufferに詰め込んだものを取り出す
 	got := buffer.String()
