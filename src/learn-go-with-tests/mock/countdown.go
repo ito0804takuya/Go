@@ -11,17 +11,24 @@ const finalWord = "Go!"
 const countdownStart = 3
 
 // 3から1秒ごとにカウントダウンして、最後はGo!と出力
-func Countdown(out io.Writer) {
+func Countdown(out io.Writer, sleeper Sleeper) {
 	for i := countdownStart; i > 0; i-- {
-		time.Sleep(1 * time.Second)
+		sleeper.Sleep()
 		fmt.Fprintln(out, i)
 	}
-	time.Sleep(1 * time.Second)
+	sleeper.Sleep()
 	fmt.Fprintf(out, finalWord)
 }
 
+type DefaultSleeper struct {}
+
+func (d DefaultSleeper) Sleep() {
+	time.Sleep(1 * time.Second)
+}
+
 func main() {
-	Countdown(os.Stdout)
+	sleeper := DefaultSleeper{}
+	Countdown(os.Stdout, sleeper)
 }
 
 // timeもSpySleeperも、用途に応じてDIしたいため、インターフェースを定義
