@@ -1,8 +1,10 @@
 package main
 
 import (
-	"bytes"
+	// "bytes"
 	"fmt"
+	"io"
+	"os"
 )
 
 // func Greet(name string) {
@@ -17,7 +19,28 @@ import (
 // → テストではbytes.Bufferを渡す
 // }
 
+// ↓
+
 // bytes.Bufferが注入される想定
-func Greet(writer *bytes.Buffer, name string) {
+// func Greet(writer *bytes.Buffer, name string) {
+// 	fmt.Fprintf(writer, "Hello, %s", name)
+// }
+
+// func main() {
+// 	Greet(os.Stdout, "World")
+// 	// → エラー
+// 	//   Greet(writer *bytes.Buffer, name string) では os.Stdout を注入できない
+// }
+
+// ↓
+
+// ↑に書いたとおり、os.Stdoutも使える、より汎用的なものにするため、io.Writerにする
+func Greet(writer io.Writer, name string) {
 	fmt.Fprintf(writer, "Hello, %s", name)
+}
+
+func main() {
+	Greet(os.Stdout, "World")
+	// → エラー
+	//   Greet(writer *bytes.Buffer, name string) では os.Stdout を注入できない
 }
