@@ -4,10 +4,20 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"time"
 )
 
+const finalWord = "Go!"
+const countdownStart = 3
+
+// 3から1秒ごとにカウントダウンして、最後はGo!と出力
 func Countdown(out io.Writer) {
-	fmt.Fprintf(out, "3")
+	for i := countdownStart; i > 0; i-- {
+		time.Sleep(1 * time.Second)
+		fmt.Fprintln(out, i)
+	}
+	time.Sleep(1 * time.Second)
+	fmt.Fprintf(out, finalWord)
 }
 
 func main() {
