@@ -8,17 +8,17 @@ import (
 func TestCounters(t *testing.T) {
 
 	t.Run("incrementing the counter 3 times leaves it at 3", func(t *testing.T) {
-		counter := Counter{}
+		counter := NewCounter()
 		counter.Inc()
 		counter.Inc()
 		counter.Inc()
 
-		assertCounter(t, &counter, 3)
+		assertCounter(t, counter, 3)
 	})
 
 	t.Run("it runs save concurrently", func(t *testing.T) {
 		wantedCount := 1000
-		counter := Counter{}
+		counter := NewCounter()
 
 		// ゴルーチンをまとめて管理するためのもの
 		var wg sync.WaitGroup
@@ -35,7 +35,7 @@ func TestCounters(t *testing.T) {
 		// 1000個のゴルーチン（1000回のインクリメント）が終わるまで待つ
 		wg.Wait()
 
-		assertCounter(t,&counter, wantedCount)
+		assertCounter(t, counter, wantedCount)
 	})
 
 }
