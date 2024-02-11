@@ -30,7 +30,6 @@ func TestCounters(t *testing.T) {
 				counter.Inc()
 				w.Done()
 			}(&wg)
-
 		}
 		// 1000個のゴルーチン（1000回のインクリメント）が終わるまで待つ
 		wg.Wait()
