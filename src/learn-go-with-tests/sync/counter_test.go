@@ -13,7 +13,7 @@ func TestCounters(t *testing.T) {
 		counter.Inc()
 		counter.Inc()
 
-		assertCounter(t, counter, 3)
+		assertCounter(t, &counter, 3)
 	})
 
 	t.Run("it runs save concurrently", func(t *testing.T) {
@@ -35,12 +35,12 @@ func TestCounters(t *testing.T) {
 		// 1000個のゴルーチン（1000回のインクリメント）が終わるまで待つ
 		wg.Wait()
 
-		assertCounter(t, counter, wantedCount)
+		assertCounter(t,&counter, wantedCount)
 	})
 
 }
 
-func assertCounter(t *testing.T, got Counter, want int) {
+func assertCounter(t *testing.T, got *Counter, want int) {
 	t.Helper()
 	if got.Value() != want {
 		t.Errorf("got %d want %d", got.Value(), want)
