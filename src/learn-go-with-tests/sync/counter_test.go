@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"sync"
+	"testing"
+)
 
 func TestCounters(t *testing.T) {
 
@@ -11,6 +14,28 @@ func TestCounters(t *testing.T) {
 		counter.Inc()
 
 		assertCounter(t, counter, 3)
+	})
+
+	t.Run("it runs save concurrently", func(t *testing.T) {
+		wantedCount := 1000
+		counter := Counter{}
+
+		// ゴルーチンをまとめて管理するためのもの
+		var wg sync.WaitGroup
+		// 1000個のゴルーチン（1000回のインクリメント）を作成
+		wg.Add(wantedCount)
+
+		for i := 0; i < wantedCount; i++ {
+			go func(w *sync.WaitGroup) {
+				counter.Inc()
+				w.Done()
+			}(&wg)
+
+		}
+		// 1000個のゴルーチン（1000回のインクリメント）が終わるまで待つ
+		wg.Wait()
+
+		assertCounter(t, counter, wantedCount)
 	})
 
 }
