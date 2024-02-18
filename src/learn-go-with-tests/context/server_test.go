@@ -8,28 +8,27 @@ import (
 	"time"
 )
 
-
 func TestHandler(t *testing.T) {
 	// 期待するレスポンス
 	data := "hello, world"
-
-	t.Run("returns data from store", func(t *testing.T) {
-		svr := Server(&SpyStore{response: data})
+	
+	t.Run("return data from store", func(t *testing.T) {
+		store := &SpyStore{response: data, t: t}
+		svr := Server(store)
 	
 		request := httptest.NewRequest(http.MethodGet, "/", nil)
-		// レスポンスを受け取るレコーダー
 		response := httptest.NewRecorder()
 	
 		svr.ServeHTTP(response, request)
 	
 		if response.Body.String() != data {
-			t.Errorf(`got "%s", want "%s`, response.Body.String(), data)
+			t.Errorf(`got "%s", want "%s"`, response.Body.String(), data)
 		}
 	})
 
 	t.Run("tells store to cancel work if request is cancelled", func(t *testing.T) {
 		// SpyStoreを注入してServerを生成
-		store := &SpyStore{response: data}
+		store := &SpyStore{response: data, t: t}
 		svr := Server(store)
 
 		request := httptest.NewRequest(http.MethodGet, "/", nil)
@@ -38,30 +37,12 @@ func TestHandler(t *testing.T) {
 		time.AfterFunc(5 * time.Millisecond, cancel)
 		request = request.WithContext(cancellingCtx)
 
-		response := httptest.NewRecorder()
+		response := &SpyResponseWriter{}
 
 		svr.ServeHTTP(response, request)
 
-		if !store.cancelled {
-			t.Errorf("store was not told to cancel")
-		}
-	})
-
-	t.Run("return data from store", func(t *testing.T) {
-		store := &SpyStore{response: data}
-		svr := Server(store)
-
-		request := httptest.NewRequest(http.MethodGet, "/", nil)
-		response := httptest.NewRecorder()
-
-		svr.ServeHTTP(response, request)
-
-		if response.Body.String() != data {
-			t.Errorf(`got "%s", want "%s"`, response.Body.String(), data)
-		}
-
-		if store.cancelled {
-			t.Error("it should not have cancelled the store")
+		if response.written {
+			t.Error("a response should not have been written")
 		}
 	})
 }
