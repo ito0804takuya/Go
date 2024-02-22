@@ -1,11 +1,16 @@
 package property_test
 
+import "strings"
+
 func ConvertToRoman(arabic int) string {
-	if arabic == 3 {
-		return "III"
+	// 文字列を構築するのに効率的なstrings.Builderを使う
+	var result strings.Builder
+
+	for i := 0; i < arabic; i++ {
+		// バッファに溜め込む
+		result.WriteString("I")
 	}
-	if arabic == 2 {
-		return "II"
-	}
-	return "I"
+
+	// バッファを文字列におこして返す
+	return result.String()
 }
