@@ -6,17 +6,18 @@ func ConvertToRoman(arabic int) string {
 	// 文字列を構築するのに効率的なstrings.Builderを使う
 	var result strings.Builder
 
-	for i := arabic; i > 0; i-- {
-		if i == 5 {
+	for arabic > 0 {
+		switch {
+		case arabic >= 5:
 			result.WriteString("V")
-			break
-		}
-		if i == 4 {
+			arabic -= 5
+		case arabic == 4:
 			result.WriteString("IV")
-			break
+			arabic -= 4
+		default:
+			result.WriteString("I")
+			arabic--
 		}
-		// バッファに溜め込む
-		result.WriteString("I")
 	}
 
 	// バッファを文字列におこして返す
