@@ -6,8 +6,8 @@ import (
 )
 
 var cases = []struct {
-	Input int
-	Want  string
+	Arabic int
+	Roman  string
 }{
 	{1, "I"},
 	{2, "II"},
@@ -42,10 +42,21 @@ var cases = []struct {
 
 func TestRomanNumerals(t *testing.T) {
 	for _, test := range cases {
-		t.Run(fmt.Sprintf("%d gets converted to %q", test.Input, test.Want), func(t *testing.T) {
-			output := ConvertToRoman(test.Input)
-			if output != test.Want {
-				t.Errorf("got %q, want %q", output, test.Want)
+		t.Run(fmt.Sprintf("%d gets converted to %q", test.Arabic, test.Roman), func(t *testing.T) {
+			output := ConvertToRoman(test.Arabic)
+			if output != test.Roman {
+				t.Errorf("got %q, want %q", output, test.Roman)
+			}
+		})
+	}
+}
+
+func TestConvertingToArabic(t *testing.T) {
+	for _, test := range cases[:1] {
+		t.Run(fmt.Sprintf("%q gets converted to %d", test.Roman, test.Arabic), func(t *testing.T) {
+			got := ConvertToArabic(test.Roman)
+			if got != test.Arabic {
+				t.Errorf("got %d, want %d", got, test.Arabic)
 			}
 		})
 	}
