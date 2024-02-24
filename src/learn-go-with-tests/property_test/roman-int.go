@@ -3,11 +3,11 @@ package property_test
 import "strings"
 
 type RomanNumeral struct {
-	Value int
+	Value  int
 	Symbol string
 }
 
-var allRomanNumerals = []RomanNumeral {
+var allRomanNumerals = []RomanNumeral{
 	{1000, "M"},
 	{900, "CM"},
 	{500, "D"},
