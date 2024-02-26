@@ -8,6 +8,14 @@ import (
 )
 
 func TestGETPlayers(t *testing.T) {
+	store := StubPlayerStore{
+		map[string]int {
+			"Pepper": 20,
+			"Floyd": 10,
+		},
+	}
+	server := &PlayerServer{&store}
+
 	t.Run("Pepperのスコアを取得", func(t *testing.T) {
 		// リクエストを生成
 		request := newGetScoreRequest("Pepper")
@@ -15,7 +23,7 @@ func TestGETPlayers(t *testing.T) {
 		response := httptest.NewRecorder()
 
 		// テスト対象のサーバー
-		PlayerServer(response, request)
+		server.ServeHTTP(response, request)
 
 		assertResponseBody(t, response.Body.String(), "20")
 	})
@@ -24,7 +32,7 @@ func TestGETPlayers(t *testing.T) {
 		request := newGetScoreRequest("Floyd")
 		response := httptest.NewRecorder()
 
-		PlayerServer(response, request)
+		server.ServeHTTP(response, request)
 
 		assertResponseBody(t, response.Body.String(), "10")
 	})
@@ -40,4 +48,14 @@ func assertResponseBody(t testing.TB, got, want string) {
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
+}
+
+// スタブ
+type StubPlayerStore struct {
+	scores map[string]int
+}
+
+func (s *StubPlayerStore) GetPlayerScore(name string) int {
+	score := s.scores[name]
+	return score
 }

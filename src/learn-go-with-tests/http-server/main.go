@@ -10,8 +10,10 @@ func main() {
 	//                    http.HandlerFunc型に変換することでhandlerが得られる。
 	// handler : ServeHTTP というメソッドを実装しているもの。
 	//           （http.HandlerFunc というinterfaceを実装しているもの。）
-	handler := http.HandlerFunc(PlayerServer)
+	// handler := http.HandlerFunc(PlayerServer)
+
+	server := &PlayerServer{}
 
 	// http.ListenAndServe : サーバーを起動
-	log.Fatal(http.ListenAndServe(":5000", handler))
+	log.Fatal(http.ListenAndServe(":5000", server))
 }
