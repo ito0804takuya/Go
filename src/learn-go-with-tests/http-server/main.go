@@ -5,6 +5,12 @@ import (
 	"net/http"
 )
 
+type InMemoryPlayerScore struct {}
+
+func (i *InMemoryPlayerScore) GetPlayerScore(name string) int {
+	return 123
+}
+
 func main() {
 	// http.HandlerFunc : func(w http.ResponseWriter, r *http.Request)という形の普通の関数を、
 	//                    http.HandlerFunc型に変換することでhandlerが得られる。
@@ -12,8 +18,8 @@ func main() {
 	//           （http.HandlerFunc というinterfaceを実装しているもの。）
 	// handler := http.HandlerFunc(PlayerServer)
 
-	server := &PlayerServer{}
+	server := &PlayerServer{&InMemoryPlayerScore{}}
 
 	// http.ListenAndServe : サーバーを起動
-	log.Fatal(http.ListenAndServe(":5000", server))
+	log.Fatal(http.ListenAndServe(":15000", server))
 }
