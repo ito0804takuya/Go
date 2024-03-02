@@ -21,6 +21,7 @@ func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *PlayerServer) processWin(w http.ResponseWriter) {
+	p.store.RecordWin("ボブ")
 	w.WriteHeader(http.StatusAccepted)
 }
 
@@ -38,6 +39,7 @@ func (p *PlayerServer) showScore(w http.ResponseWriter, r *http.Request) {
 
 type PlayerStore interface {
 	GetPlayerScore(name string) int
+	RecordWin(name string)
 }
 
 func GetPlayerScore(name string) string {
