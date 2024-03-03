@@ -12,7 +12,7 @@ func main() {
 	//           （http.HandlerFunc というinterfaceを実装しているもの。）
 	// handler := http.HandlerFunc(PlayerServer)
 
-	server := &PlayerServer{&InMemoryPlayerScore{}}
+	server := &PlayerServer{NewInMemoryPlayerStore()}
 
 	// http.ListenAndServe : サーバーを起動
 	log.Fatal(http.ListenAndServe(":15000", server))
