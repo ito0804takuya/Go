@@ -37,6 +37,7 @@ func (p *PlayerServer) showScore(w http.ResponseWriter, player string) {
 	fmt.Fprint(w, score)
 }
 
+// ストア
 type PlayerStore interface {
 	GetPlayerScore(name string) int
 	RecordWin(name string)
