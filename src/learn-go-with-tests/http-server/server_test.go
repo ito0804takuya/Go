@@ -15,7 +15,7 @@ func TestGETPlayers(t *testing.T) {
 		},
 		nil,
 	}
-	server := &PlayerServer{&store}
+	server := NewPlayerServer(&store)
 
 	t.Run("Pepperのスコアを取得", func(t *testing.T) {
 		// リクエストを生成
@@ -89,7 +89,7 @@ func TestStoreWins(t *testing.T) {
 		map[string]int{},
 		nil,
 	}
-	server := &PlayerServer{&store}
+	server := NewPlayerServer(&store)
 
 	t.Run("勝ちを記録(POST)", func(t *testing.T) {
 		player := "Pepper"
@@ -119,7 +119,7 @@ func newPostWinRequest(name string) *http.Request {
 // 保存されている全てのプレイヤーリストをJSONで取得する/leagueのテスト
 func TestLeague(t *testing.T) {
 	store := StubPlayerStore{}
-	server := &PlayerServer{&store}
+	server := NewPlayerServer(&store)
 
 	t.Run("it return 200 on /league", func(t *testing.T) {
 		request, _ := http.NewRequest(http.MethodGet, "/league", nil)
