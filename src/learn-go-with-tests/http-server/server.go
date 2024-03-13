@@ -7,12 +7,29 @@ import (
 	"strings"
 )
 
+type Player struct {
+	Name string
+	Wins int
+}
+
+// ストア
+type PlayerStore interface {
+	GetPlayerScore(name string) int
+	RecordWin(name string)
+	GetLeague() []Player
+}
+
 // プレイヤーが勝ったゲームの数を追跡できるWebサーバー
 type PlayerServer struct {
 	store PlayerStore
 	http.Handler
 }
 
+const jsonContentType = "application/json"
+
+// 以上、各種関数以外の定義。以下、関数。
+
+// サーバーのコンストラクタ
 func NewPlayerServer(store PlayerStore) *PlayerServer {
 	p := new(PlayerServer)
 
@@ -25,8 +42,6 @@ func NewPlayerServer(store PlayerStore) *PlayerServer {
 
 	return p
 }
-
-const jsonContentType = "application/json"
 
 func (p *PlayerServer) leagueHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", jsonContentType)
@@ -59,23 +74,3 @@ func (p *PlayerServer) showScore(w http.ResponseWriter, player string) {
 	fmt.Fprint(w, score)
 }
 
-// ストア
-type PlayerStore interface {
-	GetPlayerScore(name string) int
-	RecordWin(name string)
-	GetLeague() []Player
-}
-
-func GetPlayerScore(name string) string {
-	if name == "Pepper" {
-		return "20"
-	} else if name == "Floyd" {
-		return "10"
-	}
-	return ""
-}
-
-type Player struct {
-	Name string
-	Wins int
-}

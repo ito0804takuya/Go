@@ -9,12 +9,12 @@ func NewInMemoryPlayerStore() *InMemoryPlayerScore {
 	return &InMemoryPlayerScore{map[string]int{}}
 }
 
-func (i *InMemoryPlayerScore) RecordWin(name string) {
-	i.store[name]++
-}
-
 func (i *InMemoryPlayerScore) GetPlayerScore(name string) int {
 	return i.store[name]
+}
+
+func (i *InMemoryPlayerScore) RecordWin(name string) {
+	i.store[name]++
 }
 
 func (i *InMemoryPlayerScore) GetLeague() []Player {
