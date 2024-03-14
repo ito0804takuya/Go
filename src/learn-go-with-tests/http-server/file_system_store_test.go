@@ -23,5 +23,9 @@ func TestFileSystemStore(t *testing.T) {
 		}
 
 		assertLeague(t, got, want)
+
+		// 再度読み込み(io.ReadSeekerのSeekを使わず、io.Readerだとコケる)
+		got = store.GetLeague()
+		assertLeague(t, got, want)
 	})
 }
