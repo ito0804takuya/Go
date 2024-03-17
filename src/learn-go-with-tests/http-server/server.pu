@@ -1,0 +1,24 @@
+@startuml
+class Player {
+    Name: string
+    Wins: int
+}
+
+interface PlayerStore {
+    + GetPlayerScore(name: string): int
+    + RecordWin(name: string)
+    + GetLeague(): []Player
+}
+
+class PlayerServer {
+    - store: PlayerStore
+    - http.Handler
+    + NewPlayerServer(store: PlayerStore): *PlayerServer
+    + leagueHandler(w: http.ResponseWriter, r: http.Request)
+    + playerHandler(w: http.ResponseWriter, r: http.Request)
+    + processWin(w: http.ResponseWriter, player: string)
+    + showScore(w: http.ResponseWriter, player: string)
+}
+PlayerServer --> PlayerStore
+PlayerServer --> http.Handler
+@enduml
